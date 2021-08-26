@@ -5,9 +5,7 @@
  */
 package Chat;
 
-import static Chat.Caja_2.datosentrada;
-import static Chat.Caja_2.datosentrada2;
-import static Chat.Caja_2.datosentrada3;
+
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,6 +36,9 @@ public class Caja_1 {
     CrearUsuario Nombre1 = new CrearUsuario("Caja_Servidor");
     public JFrame f = new JFrame("Caja_Servidor");
     final JLabel label = new JLabel();
+    final JLabel lValor = new JLabel();
+    final JLabel lPeso = new JLabel();
+    final JLabel lImpuesto = new JLabel();
     public String articulos[] = {"Audifonos", "Celular", "Impresora", "Monitor", "Mouse", "Parlante", "Teclado"};
     public JComboBox cb = new JComboBox(articulos);
     JButton b = new JButton("Enviar");
@@ -77,12 +78,7 @@ public class Caja_1 {
 
         
         try{
-            String mensajesalida = ""+cb.getSelectedIndex();//Declaracion de la variable que almacena el mensaje que será enviado
-           // mensajesalida = cuadromensaje.getText().trim();//Se toma el texto ingresado para almacenarlo en mensaje salida
-            //cuadromensaje.setText("");//Se reinicia el contenido del cuadro en el que se escribe mensaje
-            //historial+="Me: " + mensajesalida+"\n";//Se almacena el mensaje tambien en el historial
-            //cuadropantalla.setText(historial);//Muestro en pantalla el mensaje que envié
-           // datossalida.writeUTF(": "+mensajesalida);//se envia el mensaje del server al cliente codificado
+           String mensajesalida = ""+cb.getSelectedIndex();
            datossalida.writeUTF(""+mensajesalida);
            datossalida2.writeUTF(""+mensajesalida);
            datossalida3.writeUTF(""+mensajesalida);
@@ -92,6 +88,8 @@ public class Caja_1 {
     }  
     public void cambio(String str){
           label.setText(str);
+    }
+    public void asignar_valores(int cod){
     }
     public String selec(){
         return ""+cb.getItemAt(cb.getSelectedIndex());
