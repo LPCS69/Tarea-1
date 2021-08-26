@@ -39,6 +39,9 @@ public class Caja_1 {
     final JLabel lValor = new JLabel();
     final JLabel lPeso = new JLabel();
     final JLabel lImpuesto = new JLabel();
+    public int valorProducto;
+    public int pesoProducto;
+    public int impuestoProducto;
     public String articulos[] = {"Audifonos", "Celular", "Impresora", "Monitor", "Mouse", "Parlante", "Teclado"};
     public JComboBox cb = new JComboBox(articulos);
     JButton b = new JButton("Enviar");
@@ -90,6 +93,26 @@ public class Caja_1 {
           label.setText(str);
     }
     public void asignar_valores(int cod){
+        if (cod ==0){
+        valorProducto= 5000;
+        pesoProducto= 27;
+        impuestoProducto= (int) (valorProducto*0.13);
+        }
+        if (cod ==1){
+        valorProducto= 113000;
+        pesoProducto= 269;
+        impuestoProducto= (int) (valorProducto*0.13);
+        }
+        if (cod ==3){
+        valorProducto= 81000;
+        pesoProducto= 3000;
+        impuestoProducto= (int) (valorProducto*0.13);
+        }
+        if (cod ==3){
+        valorProducto= 81000;
+        pesoProducto= 3000;
+        impuestoProducto= (int) (valorProducto*0.13);
+        }
     }
     public String selec(){
         return ""+cb.getItemAt(cb.getSelectedIndex());
