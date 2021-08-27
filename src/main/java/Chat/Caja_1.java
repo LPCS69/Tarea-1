@@ -5,7 +5,6 @@
  */
 package Chat;
 
-
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +20,7 @@ import java.net.Socket;
  * @author Usuario
  */
 public class Caja_1 {
+
     static ServerSocket Server_puerto;
     static Socket puerto;
     static ServerSocket Server_puerto2;
@@ -45,8 +45,9 @@ public class Caja_1 {
     public String articulos[] = {"Audifonos", "Celular", "Impresora", "Monitor", "Mouse", "Parlante", "Teclado"};
     public JComboBox cb = new JComboBox(articulos);
     JButton b = new JButton("Enviar");
-    JButton botonSalir = new JButton ("Salir");
+    JButton botonSalir = new JButton("Salir");
     static boolean salir = true;
+
     public void GUI() {
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setSize(400, 100);
@@ -72,67 +73,87 @@ public class Caja_1 {
                 bSalirActionPerformed(evt);
             }
         });
-   }
- public void bSalirActionPerformed(java.awt.event.ActionEvent evt) {                                            
-            salir = false;
-    }  
- public void benviarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    }
+
+    public void bSalirActionPerformed(java.awt.event.ActionEvent evt) {
+        salir = false;
+    }
+
+    public void benviarActionPerformed(java.awt.event.ActionEvent evt) {
         //ENVIO DEL MENSAJE AL CLIENTE
 
-        
-        try{
-           String mensajesalida = ""+cb.getSelectedIndex();
-           datossalida.writeUTF(""+mensajesalida);
-           datossalida2.writeUTF(""+mensajesalida);
-           datossalida3.writeUTF(""+mensajesalida);
-        }catch (Exception e){
+        try {
+            //String mensajesalida = "" + cb.getSelectedIndex();
+            asignar_valores(cb.getSelectedIndex());
+            datossalida.writeUTF("" + valorProducto);
+            datossalida2.writeUTF("" + pesoProducto);
+            datossalida3.writeUTF("" + impuestoProducto);
+        } catch (Exception e) {
 
         }
-    }  
-    public void cambio(String str){
-          label.setText(str);
     }
-    public void asignar_valores(int cod){
-        if (cod ==0){
-        valorProducto= 5000;
-        pesoProducto= 27;
-        impuestoProducto= (int) (valorProducto*0.13);
+
+    public void cambio(String str) {
+        label.setText(str);
+    }
+
+    public void asignar_valores(int cod) {
+        if (cod == 0) {
+            valorProducto = 5000;
+            pesoProducto = 27;
+            impuestoProducto = (int) (valorProducto * 0.13);
         }
-        if (cod ==1){
-        valorProducto= 113000;
-        pesoProducto= 269;
-        impuestoProducto= (int) (valorProducto*0.13);
+        if (cod == 1) {
+            valorProducto = 113000;
+            pesoProducto = 269;
+            impuestoProducto = (int) (valorProducto * 0.13);
         }
-        if (cod ==3){
-        valorProducto= 81000;
-        pesoProducto= 3000;
-        impuestoProducto= (int) (valorProducto*0.13);
+        if (cod == 2) {
+            valorProducto = 81000;
+            pesoProducto = 3000;
+            impuestoProducto = (int) (valorProducto * 0.13);
         }
-        if (cod ==3){
-        valorProducto= 81000;
-        pesoProducto= 3000;
-        impuestoProducto= (int) (valorProducto*0.13);
+        if (cod == 3) {
+            valorProducto = 137000;
+            pesoProducto = 7500;
+            impuestoProducto = (int) (valorProducto * 0.13);
+        }
+        if (cod == 4) {
+            valorProducto = 9000;
+            pesoProducto = 137;
+            impuestoProducto = (int) (valorProducto * 0.13);
+        }
+        if (cod == 5) {
+            valorProducto = 23000;
+            pesoProducto = 2750;
+            impuestoProducto = (int) (valorProducto * 0.13);
+        }
+        if (cod == 6) {
+            valorProducto = 41000;
+            pesoProducto = 790;
+            impuestoProducto = (int) (valorProducto * 0.13);
         }
     }
-    public String selec(){
-        return ""+cb.getItemAt(cb.getSelectedIndex());
-    }  
-    public int posicion(){
+
+    public String selec() {
+        return "" + cb.getItemAt(cb.getSelectedIndex());
+    }
+
+    public int posicion() {
         return cb.getSelectedIndex();
     }
 
-
-    public static void main(String[] args) {  
+    public static void main(String[] args) {
         Caja_1 caja = new Caja_1();
         caja.GUI();
-       /** while (true) {
-            String data = "" + caja.posicion();
-            caja.cambio(data);
+        /**
+         * while (true) { String data = "" + caja.posicion(); caja.cambio(data);
+         *
+         * }
+         */
 
-        }*/
-       
         String mensaje = "";//Declaracion de la variable en la que se va a almacenar el mensaje
-        try{
+        try {
             Server_puerto = new ServerSocket(1201);//el server se inicializa en el puerto 1201
             puerto = Server_puerto.accept();//Se le dice al server que acepte la conexion
             Server_puerto2 = new ServerSocket(1203);
@@ -146,12 +167,17 @@ public class Caja_1 {
             datossalida2 = new DataOutputStream(puerto2.getOutputStream());
             datosentrada3 = new DataInputStream(puerto3.getInputStream());
             datossalida3 = new DataOutputStream(puerto3.getOutputStream());
-            while(salir){
-            mensaje = datosentrada.readUTF()+datosentrada2.readUTF()+datosentrada3.readUTF();                
-            caja.cambio(mensaje);
-            }    
-        }catch (Exception e){
-        
+            while (salir) {
+                int a = Integer.parseInt(datosentrada.readUTF());
+                int b = Integer.parseInt(datosentrada2.readUTF());
+                int c = Integer.parseInt(datosentrada3.readUTF());
+                int monto = (int) (a + c + (b * 0.15));
+                //mensaje = datosentrada.readUTF()+" "+datosentrada2.readUTF()+" "+datosentrada3.readUTF();//Lee y decodifica el mensaje que le ha sido enviado
+                mensaje = "" + monto;
+                caja.cambio(mensaje);
+            }
+        } catch (Exception e) {
+
         }
-    }}
-     
+    }
+}
