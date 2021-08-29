@@ -17,11 +17,14 @@ import java.net.Socket;
 public class Caja_2 {
 
     //Variables estaticas para poder hacer la conexion cliente-servidor
+    static Socket puerto1;
     static Socket puerto;
     static Socket puerto2;
     static Socket puerto3;
     static DataInputStream datosentrada;
     static DataOutputStream datossalida;
+    static DataInputStream datosentrada1;
+    static DataOutputStream datossalida1;
     static DataInputStream datosentrada2;
     static DataOutputStream datossalida2;
     static DataInputStream datosentrada3;
@@ -36,49 +39,66 @@ public class Caja_2 {
     //UsuarioCliente tipo = new UsuarioCliente();//Objeto de la clase TipodeUsuario que indica si el inicializado es cliente o servidor
     //Variable del tipo string que almacena el chat
     static String historial = "";
-    public JFrame f = new JFrame("Caja_2");
-    final JLabel label = new JLabel();
+    public JFrame f = new JFrame("Caja Dos");
+    static JLabel lArtículo = new JLabel();
     final JLabel lValor = new JLabel();
-    final JLabel lPeso = new JLabel();
     final JLabel lImpuesto = new JLabel();
+    final JLabel lPeso = new JLabel();
+    final JLabel lMonto = new JLabel();
     public int valorProducto;
     public int pesoProducto;
     public int impuestoProducto;
     public String articulos[] = {"Audifonos", "Celular", "Impresora", "Monitor", "Mouse", "Parlante", "Teclado"};
     public JComboBox cb = new JComboBox(articulos);
-    JButton botonenviar = new JButton("Enviar");
-    JButton botonSalir = new JButton("Salir");
-    static boolean salir = true;
-
+    JButton b = new JButton("Enviar");
+    Panel panel = new Panel("Caja Uno");
     public void GUI() {
-        ip = direccion.getIp();
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setSize(400, 100);
-        cb.setBounds(50, 50, 90, 20);
-        f.setSize(300, 300);
-        f.setLayout(null);
+        lArtículo.setHorizontalAlignment(JLabel.CENTER);
+        lArtículo.setSize(400, 100);
+        lArtículo.setLocation(40, 145);
+        lValor.setHorizontalAlignment(JLabel.CENTER);
+        lValor.setSize(400, 100);
+        lValor.setLocation(40, 175);
+        lImpuesto.setHorizontalAlignment(JLabel.CENTER);
+        lImpuesto.setSize(400, 100);
+        lImpuesto.setLocation(40, 205);
+        lPeso.setHorizontalAlignment(JLabel.CENTER);
+        lPeso.setSize(400, 100);
+        lPeso.setLocation(40, 235);
+        lMonto.setHorizontalAlignment(JLabel.CENTER);
+        lMonto.setSize(400, 100);
+        lMonto.setLocation(40, 285);
+        cb.setBounds(30, 110, 90, 20);
+        f.setSize(450, 450);
+        // f.setLayout(null);
         f.setVisible(true);
-        botonenviar.setBounds(50, 100, 75, 20);
-        botonSalir.setBounds(150, 100, 75, 20);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        b.setBounds(140, 110, 75, 20);
         f.add(cb);
-        f.add(label);
-        f.add(botonenviar);
-        f.add(botonSalir);
-        botonenviar.setText("Enviar");
-        botonenviar.addActionListener(new java.awt.event.ActionListener() {
+        //panel.add(label);
+        f.add(lArtículo);
+        f.add(lValor);
+        f.add(lImpuesto);
+        f.add(lPeso);
+        f.add(lMonto);
+        f.add(b);
+        f.add(panel);
+        b.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonenviarActionPerformed(evt);
+                benviarActionPerformed(evt);
             }
         });
 
     }
 
-    private void botonenviarActionPerformed(java.awt.event.ActionEvent evt) {
+    private void benviarActionPerformed(java.awt.event.ActionEvent evt) {
         //ENVIO DEL MENSAJE AL SERVIDOR
         try {
             //String mensajesalida = "" + cb.getSelectedIndex();
+            String articulo = (String) cb.getItemAt(cb.getSelectedIndex());
             asignar_valores(cb.getSelectedIndex());
-            datossalida.writeUTF("" + valorProducto);
+            datossalida.writeUTF( articulo);
+            datossalida1.writeUTF("" + valorProducto);
             datossalida2.writeUTF("" + pesoProducto);
             datossalida3.writeUTF("" + impuestoProducto);
         } catch (Exception e) {
@@ -87,8 +107,12 @@ public class Caja_2 {
 
     }
 
-    public void cambio(String str) {
-        label.setText(str);
+    public void cambio(String art, String mon, int val, int imp, int pes) {
+        lArtículo.setText(art);
+        lValor.setText("₡"+val);
+        lImpuesto.setText("₡"+imp);
+        lPeso.setText(""+pes+"   gramos");
+        lMonto.setText("₡"+mon);
     }
 
     public void asignar_valores(int cod) {
@@ -146,26 +170,27 @@ public class Caja_2 {
          * }
          */
         try {
-
-            puerto = new Socket(ip, 1201);//Se recibe el valor de la ip y se inicializa el puerto
+            puerto = new Socket(ip, 1199);//Se recibe el valor de la ip y se inicializa el puerto
+            puerto1 = new Socket(ip, 1201);//Se recibe el valor de la ip y se inicializa el puerto
             puerto2 = new Socket(ip, 1203);//Se recibe el valor de la ip y se inicializa el puerto
             puerto3 = new Socket(ip, 1205);
 //Puerto por donde entran y salen los datos
             datosentrada = new DataInputStream(puerto.getInputStream());
             datossalida = new DataOutputStream(puerto.getOutputStream());
+            datosentrada1 = new DataInputStream(puerto1.getInputStream());
+            datossalida1 = new DataOutputStream(puerto1.getOutputStream());
             datosentrada2 = new DataInputStream(puerto2.getInputStream());
             datossalida2 = new DataOutputStream(puerto2.getOutputStream());
             datosentrada3 = new DataInputStream(puerto3.getInputStream());
             datossalida3 = new DataOutputStream(puerto3.getOutputStream());
             String mensaje = "";//Declaracion de la variable en la que se va a almacenar el mensaje
-            while (salir) {
-                int a = Integer.parseInt(datosentrada.readUTF());
+            while (true) {
+                int a = Integer.parseInt(datosentrada1.readUTF());
                 int b = Integer.parseInt(datosentrada2.readUTF());
                 int c = Integer.parseInt(datosentrada3.readUTF());
                 int monto = (int) (a + c + (b * 0.15));
-                // mensaje = datosentrada.readUTF()+" "+datosentrada2.readUTF()+" "+datosentrada3.readUTF();//Lee y decodifica el mensaje que le ha sido enviado
-                mensaje = "" + monto;
-                caja.cambio(mensaje);
+                //mensaje = datosentrada.readUTF()+" "+datosentrada2.readUTF()+" "+datosentrada3.readUTF();//Lee y decodifica el mensaje que le ha sido enviado
+                caja.cambio(datosentrada.readUTF(), String.valueOf(monto), a, c,b);
             }
 
         } catch (Exception e) {
