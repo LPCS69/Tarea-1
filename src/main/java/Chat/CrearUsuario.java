@@ -1,13 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*ITCR
+Área Académica Ingeniería en Computadores
+II Semestre 2021/Algoritmos y Estructura de Datos I
+Tarea Extraclase 1
+Estudiante: Luis Pablo Céspedes Sequeira.
+Carné: 201156162
+IDE: NetBeans 12.2*/
 package Chat;
-
 /**
- *
- * @author Usuario
+ * Esta clase se encarga de asignar los diferents valores a cada usuario que se encargan de la logica de la coneccion.
+ * @author Luis Pablo Céspedes Sequeira.
+ * @see CrearUsuario
  */
 public class CrearUsuario {
     //Atributos

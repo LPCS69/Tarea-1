@@ -1,5 +1,3 @@
-package Chat;
-
 /*ITCR
 Área Académica Ingeniería en Computadores
 II Semestre 2021/Algoritmos y Estructura de Datos I
@@ -7,7 +5,7 @@ Tarea Extraclase 1
 Estudiante: Luis Pablo Céspedes Sequeira.
 Carné: 201156162
 IDE: NetBeans 12.2*/
-
+package Chat;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
@@ -15,17 +13,31 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Font;
 
+/**
+ * Esta clase contiene las partes de la interfaz que no intervienen en la lógica del programa, que por esto se puede
+ * usar en ambos usuarios.
+ * @author Luis Pablo Céspedes Sequeira.
+ * @see Panel
+ */
 @SuppressWarnings("serial")
 public class Panel extends JPanel {
 
     public String usuario;
 
+     /**
+     * Metodo parametrizado, constructor por defecto 
+     * del otro usuario, y hacerle los cambios necesarios para asignarlos a las etiquetas que los desplegan
+     * @param nombre Nombre del otro ususario para identificar que los datos que se desplegan son del otro usuario
+     */
     public Panel(String nombre) {
         usuario = nombre;
         setFocusable(true);
     }
 
     @Override
+     /**
+     * Metodo que se encarga de dibujar y escribir objetos de cierta parte de la interfaz
+     */
     public void paint(Graphics p) {
         super.paint(p);
         Graphics2D g2d = (Graphics2D) p;

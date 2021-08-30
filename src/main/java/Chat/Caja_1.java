@@ -1,23 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*ITCR
+Área Académica Ingeniería en Computadores
+II Semestre 2021/Algoritmos y Estructura de Datos I
+Tarea Extraclase 1
+Estudiante: Luis Pablo Céspedes Sequeira.
+Carné: 201156162
+IDE: NetBeans 12.2*/
 package Chat;
-
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- *
- * @author Usuario
+ * Esta clase contiene los atributos y metodos del Usuario que seria el usuario servidor
+ * @author Luis Pablo Céspedes Sequeira.
+ * @see Caja_1
  */
 public class Caja_1 {
 
@@ -51,7 +52,9 @@ public class Caja_1 {
     public JComboBox cb = new JComboBox(articulos);
     JButton b = new JButton("Enviar");
     Panel panel = new Panel("Caja Dos");
-
+    /**
+     * Metodo constructor por defecto de la Interfaz
+     */
     public void GUI() {
         lArtículo.setHorizontalAlignment(JLabel.CENTER);
         lArtículo.setSize(400, 100);
@@ -85,12 +88,19 @@ public class Caja_1 {
         f.add(panel);
         b.addActionListener(new java.awt.event.ActionListener() {
 
+            /**
+             * Metodo que asigna el Metodo al bonton enviar encargado de enviar
+             * los datos al otro usuario
+             */
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 benviarActionPerformed(evt);
             }
         });
     }
 
+    /**
+     * Metodo encargado de la logica del envio de datos al otro usuario
+     */
     public void benviarActionPerformed(java.awt.event.ActionEvent evt) {
         //ENVIO DEL MENSAJE AL CLIENTE
 
@@ -106,6 +116,15 @@ public class Caja_1 {
         }
     }
 
+     /**
+     * Metodo parametrizado, encargado de tomar los datos ya recibidos antes o calculados y almacenados en otras variables 
+     * del otro usuario, y hacerle los cambios necesarios para asignarlos a las etiquetas que los desplegan
+     * @param art Nombre del artículo
+     * @param mon El monto total del articulo
+     * @param val EL valor sin impuestos del artículo
+     * @param imp Valor del Impuesto del articulo
+     * @param pes Peso en gramos del articulo
+     */
     public void cambio(String art, String mon, int val, int imp, int pes) {
         lArtículo.setText(art);
         lValor.setText("₡"+val);
@@ -113,7 +132,10 @@ public class Caja_1 {
         lPeso.setText(""+pes+"   gramos");
         lMonto.setText("₡"+mon);
     }
-
+     /**
+     * Metodo parametrizado asigna los datos que van a ser enviados segun el articulo
+     * @param cod Numero que identifica el articulo para asi enviar los datos correspondientes a este.
+     */
     public void asignar_valores(int cod) {
         if (cod == 0) {
             valorProducto = 5000;
@@ -152,24 +174,14 @@ public class Caja_1 {
         }
     }
 
-    public String selec() {
-        return "" + cb.getItemAt(cb.getSelectedIndex());
-    }
-
-    public int posicion() {
-        return cb.getSelectedIndex();
-    }
-
+    /**
+     * Metodo Main de la clase Caja_1 que es el usuario servidor
+     * Este metodo crea la clase, crea los objetos necesarios de la interfaz y lo de los diferentes puertos
+     * por donde se van enviar los datos, se uso un puerto por dato para evitar problemas de ejecución
+     */
     public static void main(String[] args) {
         Caja_1 caja = new Caja_1();
         caja.GUI();
-        /**
-         * while (true) { String data = "" + caja.posicion(); caja.cambio(data);
-         *
-         * }
-         */
-
-        String mensaje = "";//Declaracion de la variable en la que se va a almacenar el mensaje
         try {
             Server_puerto = Server_puerto = new ServerSocket(1199);//el server se inicializa en el puerto 1201
             puerto = Server_puerto.accept();//Se le dice al server que acepte la conexion
@@ -193,7 +205,6 @@ public class Caja_1 {
                 int b = Integer.parseInt(datosentrada2.readUTF());
                 int c = Integer.parseInt(datosentrada3.readUTF());
                 int monto = (int) (a + c + (b * 0.15));
-                //mensaje = datosentrada.readUTF()+" "+datosentrada2.readUTF()+" "+datosentrada3.readUTF();//Lee y decodifica el mensaje que le ha sido enviado
                 caja.cambio(datosentrada.readUTF(), String.valueOf(monto), a, c,b);
 
             }
